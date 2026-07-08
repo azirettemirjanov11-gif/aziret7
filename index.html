@@ -1,0 +1,511 @@
+
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FIFA GLOBAL | Community Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..800;1,400..800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @layer base {
+            body {
+                @apply bg-background text-on-background font-body-md overflow-x-hidden;
+            }
+        }
+
+        .glass-card {
+            @apply bg-surface-container/40 backdrop-blur-xl border border-white/10 transition-all duration-300;
+            background-image: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+        }
+
+        .glass-card:hover {
+            @apply border-primary/40 shadow-[0_0_30px_rgba(161,212,148,0.15)];
+        }
+
+        .neon-border {
+            position: relative;
+        }
+
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid transparent;
+            border-image: linear-gradient(to right, #a1d494, transparent, #a1d494) 1;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .kinetic-slant {
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
+        }
+
+        .pulse-live {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .7; transform: scale(1.05); }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            @apply bg-surface-container-lowest;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            @apply bg-primary/30 rounded-full;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#c6cf00",
+                      "surface-container": "#1e2020",
+                      "surface-container-high": "#282a2b",
+                      "inverse-primary": "#3b6934",
+                      "surface": "#121414",
+                      "secondary-fixed-dim": "#98cbff",
+                      "surface-tint": "#a1d494",
+                      "on-secondary-container": "#003558",
+                      "tertiary-fixed": "#e2ec00",
+                      "on-error": "#690005",
+                      "on-tertiary-container": "#c2cb00",
+                      "surface-dim": "#121414",
+                      "on-secondary": "#003354",
+                      "surface-variant": "#333535",
+                      "on-secondary-fixed-variant": "#004a77",
+                      "on-primary-fixed": "#002201",
+                      "primary-fixed": "#bcf0ae",
+                      "error": "#ffb4ab",
+                      "tertiary-container": "#505400",
+                      "surface-container-lowest": "#0c0f0f",
+                      "surface-bright": "#37393a",
+                      "outline-variant": "#42493e",
+                      "primary": "#a1d494",
+                      "secondary-container": "#00a2fd",
+                      "on-primary": "#0a3909",
+                      "surface-container-highest": "#333535",
+                      "on-tertiary": "#303300",
+                      "error-container": "#93000a",
+                      "inverse-on-surface": "#2f3131",
+                      "on-error-container": "#ffdad6",
+                      "on-primary-container": "#9dd090",
+                      "outline": "#8c9387",
+                      "on-background": "#e2e2e2",
+                      "tertiary": "#c6cf00",
+                      "primary-fixed-dim": "#a1d494",
+                      "on-tertiary-fixed-variant": "#474a00",
+                      "primary-container": "#2d5a27",
+                      "on-primary-fixed-variant": "#23501e",
+                      "on-tertiary-fixed": "#1b1d00",
+                      "background": "#121414",
+                      "inverse-surface": "#e2e2e2",
+                      "secondary": "#98cbff",
+                      "on-surface-variant": "#c2c9bb",
+                      "on-secondary-fixed": "#001d33",
+                      "surface-container-low": "#1a1c1c",
+                      "on-surface": "#e2e2e2",
+                      "secondary-fixed": "#cfe5ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "section-gap": "80px",
+                      "gutter": "16px",
+                      "container-margin": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Archivo Narrow"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Archivo Narrow"],
+                      "label-sm": ["JetBrains Mono"],
+                      "display-lg": ["Archivo Narrow"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Archivo Narrow"]
+              },
+              "fontSize": {
+                      "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                      "display-lg": ["72px", {"lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_20px_rgba(161,212,148,0.1)]">
+<div class="flex justify-between items-center h-20 px-container-margin max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-base">
+<span class="font-display-lg text-headline-md tracking-tighter italic text-primary">FIFA GLOBAL</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Rankings</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Schedule</a>
+<a class="font-label-sm text-label-sm text-primary border-b-2 border-primary pb-1" href="#">Community</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">News</a>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="hidden lg:flex items-center bg-surface-container rounded-full px-4 py-2 border border-outline-variant/50">
+<span class="material-symbols-outlined text-outline text-[20px]" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md placeholder:text-outline-variant w-48" placeholder="Search Community..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="account_circle">account_circle</button>
+<button class="bg-primary text-on-primary font-label-sm text-label-sm px-6 py-2 rounded-lg hover:brightness-110 active:scale-95 transition-all">LOGIN</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 min-h-screen">
+<!-- Hero Animation Layer -->
+<div class="relative h-[300px] w-full overflow-hidden mb-section-gap">
+
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="relative z-10 max-w-screen-2xl mx-auto px-container-margin h-full flex flex-col justify-end pb-12">
+<div class="inline-flex items-center gap-base bg-tertiary/20 text-tertiary px-3 py-1 rounded-full w-fit mb-4 border border-tertiary/30">
+<span class="material-symbols-outlined text-sm pulse-live" data-icon="hub">hub</span>
+<span class="font-label-sm text-label-sm tracking-widest">COMMUNITY HUB</span>
+</div>
+<h1 class="font-display-lg text-headline-lg-mobile md:text-display-lg text-on-surface uppercase italic">Where Legends <span class="text-primary">Converse.</span></h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-4">Join millions of football fanatics, pro gamers, and tactical masterminds. Share your highlights and climb the contributor leaderboard.</p>
+</div>
+</div>
+<div class="max-w-screen-2xl mx-auto px-container-margin grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Sidebar: contributor Leaderboard -->
+<aside class="lg:col-span-3 order-2 lg:order-1">
+<div class="glass-card p-gutter sticky top-28">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-headline-md">Top Contributors</h3>
+<span class="material-symbols-outlined text-primary" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div class="space-y-4">
+<!-- Rank 1 -->
+<div class="flex items-center gap-base p-2 rounded-lg bg-primary/10 border border-primary/20">
+<div class="w-10 h-10 rounded-full relative">
+<div class="absolute -top-1 -right-1 bg-tertiary text-on-tertiary text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">1</div>
+<img class="w-full h-full rounded-full object-cover" data-alt="Close-up professional esports profile photo of a person wearing a team jersey, illuminated by neon green studio lighting on a dark atmospheric background, high-end photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAadSp3ToWnobpqA0WN_JPH5ryN0Goz47bnT7Erxtl2zIjfxgb3-SJNroX-JM4l80NxsSq3pIA30DR6pR1LX1L-mW6wlKrukgeFKd3Shs_tzRxPVKN-YcsyxVdpWldN2ORF0bAp0nM93IPKaSBS21kGWnerDIv2QZu8q4VMcBa_M5BSqa_BA6hcMPhEKKvOjzvfUje7EpLBKQchKa2ZqzhS9jJ6aS8vOQU7z5x6HojYrdkHMacephuF"/>
+</div>
+<div class="flex-1">
+<p class="font-headline-md text-sm text-on-surface">AlexGOL_99</p>
+<p class="font-label-sm text-[10px] text-primary">2,450 POINTS</p>
+</div>
+<span class="material-symbols-outlined text-tertiary" data-icon="trending_up">trending_up</span>
+</div>
+<!-- Others -->
+<div class="flex items-center gap-base p-2">
+<div class="w-10 h-10 rounded-full bg-surface-container relative">
+<div class="absolute -top-1 -right-1 bg-outline-variant text-on-surface text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">2</div>
+<img class="w-full h-full rounded-full object-cover" data-alt="Digital avatar profile photo of a football gamer, stylized with cinematic blue lighting and soft bokeh background, reflecting the high-octane FIFA brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDudKPalBVcJb6xl-KryUstLDWijLe0ZDrhhYxBn4jP6VUZ--KLqFd1t464lIau9kfqxvW_IB3fHEdyT8FMx2qcVISvPH8Upkcl0tVSrrAFjuo1-5CMsArIuHntZ0KWlohoFTgzX7PyZtpaKazPekyfbtZKn_bxgBA7pCHlmfowR4YyVaSZNx4YoRmo_wwU44w9noiVwE9erD703rjvRiZHp9sJzDuimKJCdgGyT6u9RpMZsC7pGzD9"/>
+</div>
+<div class="flex-1">
+<p class="font-headline-md text-sm text-on-surface">Striker_Pro</p>
+<p class="font-label-sm text-[10px] text-on-surface-variant">2,120 POINTS</p>
+</div>
+</div>
+<div class="flex items-center gap-base p-2">
+<div class="w-10 h-10 rounded-full bg-surface-container relative">
+<div class="absolute -top-1 -right-1 bg-outline-variant text-on-surface text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">3</div>
+<img class="w-full h-full rounded-full object-cover" data-alt="Sleek esports professional player profile icon, featuring high-contrast lighting and a technical HUD aesthetic overlay, perfect for a modern sports gaming platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBEvxsNNTJq5smdd32EHsde9qzBAVdVq3lUeipPve3WQk6WqFVvfTWCkMhfpBSx_lVLtzgD0LBIi3zuaH-4CSVAnBS_5xMsXXMrQJxyH8_ZczMFUW4VnzWFNBPut8nTE6y6VAb7V5PGnCzp7-gMCvrHJA6Nu49p3IP9hWMfrD2emN1kGhzyffw7-_RtjgfBovoELS86rlkFNHgFRA4XFMd4_DhsWjzDzkB5_EdnN2nLDvWfZzsUUq2"/>
+</div>
+<div class="flex-1">
+<p class="font-headline-md text-sm text-on-surface">FifaTactics</p>
+<p class="font-label-sm text-[10px] text-on-surface-variant">1,980 POINTS</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border border-outline text-on-surface font-label-sm text-label-sm rounded-lg hover:bg-surface-variant transition-colors">VIEW FULL RANKINGS</button>
+</div>
+<div class="glass-card mt-gutter p-gutter">
+<h3 class="font-headline-md text-headline-md mb-4">Live Activity</h3>
+<div class="space-y-3">
+<div class="flex gap-base">
+<div class="w-1 h-8 bg-primary rounded-full"></div>
+<div>
+<p class="text-body-md text-sm"><span class="text-primary">@MarcoV</span> just posted a new Goal of the Month entry!</p>
+<p class="text-[10px] text-on-surface-variant font-label-sm uppercase">2 MINS AGO</p>
+</div>
+</div>
+<div class="flex gap-base">
+<div class="w-1 h-8 bg-tertiary rounded-full"></div>
+<div>
+<p class="text-body-md text-sm"><span class="text-tertiary">#EAFC</span> is trending in the Tactics Forum</p>
+<p class="text-[10px] text-on-surface-variant font-label-sm uppercase">15 MINS AGO</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content: Trending Feed -->
+<div class="lg:col-span-6 space-y-gutter order-1 lg:order-2">
+<!-- Share Thought CTA -->
+<div class="glass-card p-6 flex items-start gap-4 neon-border overflow-hidden">
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Portrait of a modern gamer with professional headphones, shot in a dark room with vibrant green LED highlights on the face, capturing the energy of an elite gaming hub." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCipTdlg5Z0yIbrVYLm8zIiYoQz44pQRn2DWpkrawuCY8BcVOZZeZVzhtmaOb3hJNdYNIQ0rs30du62CJbNJHXygAzmS5alnIThEJR93mf1Ri_nfMBYDXfh9vriVC0K2Yl2LiRPbP5i9wFEoPMSAOuUMsvNaOZ9oV_Dj1rjtXioET2yM3l-tat1j2AdjGpkw-TKnVJmxoNO4SG1O-SkPf07o69iRdGvaMcWD2_1LGQp8X6IQxIS2h0R"/>
+</div>
+<div class="flex-1">
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-body-lg resize-none min-h-[60px] placeholder:text-outline" placeholder="Share your latest goal or ask for tactics..."></textarea>
+<div class="flex justify-between items-center mt-4 pt-4 border-t border-outline-variant/30">
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors" data-icon="videocam">videocam</button>
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors" data-icon="image">image</button>
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors" data-icon="poll">poll</button>
+</div>
+<button class="bg-primary text-on-primary font-label-sm text-label-sm px-8 py-2 rounded-lg font-bold shadow-[0_0_15px_rgba(161,212,148,0.4)]">POST</button>
+</div>
+</div>
+</div>
+<!-- Featured Fan Video -->
+<div class="glass-card overflow-hidden group relative">
+<div class="absolute top-4 right-4 z-20 flex gap-2">
+<span class="bg-error px-2 py-1 text-[10px] font-bold text-on-error rounded flex items-center gap-1 pulse-live">
+<span class="w-1.5 h-1.5 bg-on-error rounded-full"></span> FEATURED
+                        </span>
+</div>
+<div class="aspect-video relative overflow-hidden">
+<div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all z-10 flex items-center justify-center">
+<button class="w-16 h-16 rounded-full bg-primary/90 text-on-primary flex items-center justify-center scale-90 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_20px_rgba(161,212,148,0.5)]">
+<span class="material-symbols-outlined text-4xl ml-1" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+<img class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700" data-alt="Epic cinematic capture of a packed football stadium at night under bright floodlights, with green grass glistening and a sense of immense energy and spectacle in the air." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3601K1QB9nPu7bEL_eiVCBJ_ovP0CfiCdfiI-hHyzd2GFU4v4rx7BfbD3DcLtguPfR8GHbz1s8i3boBXsBZQSOxxoAK9koE6Ej5EiVkdrng26xB909F9aAwXFEjyYE4HVEMLjLxd4fRubmlfW22IFCa4d891sfRXeGc8MWb9X5ylFC35fNPR4bEkxORVGxXdKl77IDtUHanJMztBUAJdga8SLo8cCNOiK335aFCpnvUx9rG55d0yn"/>
+</div>
+<div class="p-gutter">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-md text-xl italic uppercase">Incredible 40-Yard Screamer | Pro Division</h4>
+<span class="text-on-surface-variant font-label-sm text-[10px]">14.2K VIEWS</span>
+</div>
+<div class="flex items-center gap-base">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="Small circular profile photo of a young esports creator, stylish lighting, professional gaming aesthetics for a high-end sports platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaErReYMWSSPT_9KAi3Z2f752EdOMKh-c6MOmEfbn3-gClUcqglDg-Iji6Dh_kGPDC3X7Z9KYfNeGjEYfMQkleZUZTUZxZSwZrMu9Qcx9H4gyO1For40U6cg3V2GWyn8IPjqMxrAeE4Ga4Kq1B5b2kttH_gxZHh6nEFoAo8oNsmoqSyQM3lXZsi3VqLcLvNBqxI4wu3b1NMymeR3TMxGFIIF_L9P5VZW5CxXU_nb52rIgNniCxZk-k"/>
+<span class="font-label-sm text-xs text-primary">@FifaWizard</span>
+<span class="text-outline text-xs">• 3 hours ago</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid Post Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Post 1 -->
+<div class="glass-card p-gutter flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-base mb-4">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Avatar of a casual gaming enthusiast, soft blue atmospheric lighting, professional digital photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8s0uTgI4him6oFn7aPvFasNL4QV1HidT7MlozRnANnwkEqWoqXoejuW3pSe1-iO2qjgTc8akx2_nBDBcnBXrd7fwdGtoWUAICvtS5hK8ymKvQ8FcY6SLh6X12CLn57ZlajA9W1rSNH2MvCMmD8kdR8JhtzIr8K8TAgbq7jV9ApCqFcA78eRROWFjiXsrTCenT4l82uhPxZO_5462c5poCtl9iXsxTzoCrEYlpF8J4qh-yHvHzqYy5"/>
+<div>
+<p class="font-headline-md text-sm">TacticsMaster</p>
+<p class="font-label-sm text-[10px] text-outline">POSTED IN <span class="text-tertiary">#STRATEGY</span></p>
+</div>
+</div>
+<p class="text-body-md text-sm line-clamp-3">The new 4-3-3(5) variation is completely broken in the latest patch. You need to set your False 9 to 'Stay Central' or they drift too wide and kill the counter...</p>
+</div>
+<div class="mt-6 flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex gap-4">
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="thumb_up">thumb_up</span>
+<span class="text-xs font-label-sm">342</span>
+</button>
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-xs font-label-sm">89</span>
+</button>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary" data-icon="share">share</button>
+</div>
+</div>
+<!-- Post 2 (Visual) -->
+<div class="glass-card flex flex-col">
+<div class="h-40 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic UI dashboard showing football statistics and player attributes with neon gradients from green to blue, presented in a high-tech glassmorphism style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIdXqdnPrWAuskVoGEbjBS1c7FC3UNxTvqF5wIIh8lZ6Rcioa36p8jS1PHHjfzk5tHsGQtrfWsSi1N9IyDS7LeSKm9quacMWNmst8bma7scueghnHLACtuvepq5F0xTs3QRZc-l6QPBQVjG1FXEPosQmgttx3vMdX8-2ZKpJmweAFSylb6BQ3R7XyeP5W00w0V_uGL_VKjWHVrwk_LHMTMaulDs1f8HLKTVDMGErgvfXeOFPps10Tm"/>
+</div>
+<div class="p-4">
+<h5 class="font-headline-md text-base uppercase italic mb-2">My Top 5 Hidden Gems for Career Mode</h5>
+<div class="flex gap-2 mb-4">
+<span class="bg-surface-variant px-2 py-1 rounded text-[10px] font-label-sm text-on-surface-variant">#CAREER</span>
+<span class="bg-surface-variant px-2 py-1 rounded text-[10px] font-label-sm text-on-surface-variant">#FIFA24</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-surface bg-gray-500"></div>
+<div class="w-6 h-6 rounded-full border-2 border-surface bg-gray-600"></div>
+<div class="w-6 h-6 rounded-full border-2 border-surface bg-gray-700"></div>
+<span class="text-[10px] text-outline ml-4">+45 comments</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Another Feed Item -->
+<div class="glass-card p-6">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Profile photo of a professional football coach, intense gaze, cinematic warm key lighting against a dark navy blue background, modern sports aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdyNXs5zKPAEVgW7lWhBJjkVxNQUg1iXIhDLJc5qIB2SueATGm69X4bUCtIoNhxFxgNfyoxWkq85Op9x8Lp-5vuflPsIOUcy8dhH_LDEuVucIFTWuI6RXlHQy1xDWGvvDQK9IDquCkWYb9yLJ3z_iCp4IFE0kv11-AEjgt4Bb1gTydwX51aeW-lsJN-tp-uXZgad08cZjgPtGfLnmRJEwoxHVSsoNBnYBTegdKDZFQmHkiBOr5UCwV"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<div>
+<span class="font-headline-md text-on-surface">Coach_Vincenzo</span>
+<span class="material-symbols-outlined text-secondary-container text-sm align-middle ml-1" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<p class="text-[10px] text-outline-variant font-label-sm">PRO ANALYST • 10H AGO</p>
+</div>
+<button class="material-symbols-outlined text-outline" data-icon="more_horiz">more_horiz</button>
+</div>
+<p class="text-body-md mt-4 text-on-surface-variant leading-relaxed">
+                                Analyzing the weekend's Global Series results. The "Park the Bus" meta is officially dead. High pressing with 70+ depth is the only way to win in the current build. Check my full breakdown in the Strategy thread.
+                            </p>
+<div class="mt-4 grid grid-cols-2 gap-2">
+<div class="aspect-square glass-card overflow-hidden">
+<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" data-alt="Abstract visualization of football field tactics with glowing lines and technical heatmaps, rendered in an electric green and dark gray color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtvndhkNY7nJvCI3tDsI_FFWZo2QNyhSAH1HkH-YC_HB67lv_0OqQVIExGaPebBdEhYMWsmYKT8-icGdt6KQ2ccaWYZ6-t4xyGEqDANAF8Fw4RWDtd7kjzaHcOBOtk2PEak2-p_us-6c4eO0It7LLlY3eYPjhfevAqH3GNruqMEfBxr18GeGnaAFe5w1pgqDLJvkpDWb1eJpOMFM8NZGmKsqc7PrEx32aMp50z1RdaHHkWRrLq4UDG"/>
+</div>
+<div class="aspect-square glass-card overflow-hidden">
+<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" data-alt="Macro shot of a high-tech football boot detail with neon lighting, focusing on the texture and modern materials, professional product photography for a sports hub." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4ptg_mAQGO4xF_F0Ey2Hh6obI2m5xDBRW-to2MrndQCYxd7qWDyCf2TTj0EUt_caISwe1wztv1scFiq9XLMS9D0P8guGvnGSVDINNvIUKaWebPhyOsYUTnNk5x04oNTIkAyXjZ3Wir6D5rMQibJWZkWC1IH3mwKGHfvvaVFbfbgyCmbVTj3dMhGUB-N7SEk3RSj6pbZeJWsjPYgaf_bi9vbqgiKbqjBteFJZGn3mUh7ckz6QEFJao"/>
+</div>
+</div>
+<div class="mt-6 flex gap-6">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary group">
+<span class="material-symbols-outlined group-hover:scale-125 transition-transform" data-icon="favorite">favorite</span>
+<span class="font-label-sm">1.2K</span>
+</button>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary group">
+<span class="material-symbols-outlined group-hover:scale-125 transition-transform" data-icon="mode_comment">mode_comment</span>
+<span class="font-label-sm">234</span>
+</button>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary group">
+<span class="material-symbols-outlined group-hover:scale-125 transition-transform" data-icon="repeat">repeat</span>
+<span class="font-label-sm">45</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Recent Forums & CTA -->
+<aside class="lg:col-span-3 space-y-gutter order-3">
+<div class="glass-card p-gutter bg-gradient-to-br from-primary/10 to-transparent">
+<h3 class="font-headline-md text-headline-md mb-2 uppercase italic text-primary">Join the Discussion</h3>
+<p class="text-body-md text-sm text-on-surface-variant mb-6">Connect with fellow managers and players in our specialized forums.</p>
+<button class="w-full py-3 bg-tertiary text-on-tertiary font-headline-md rounded-lg shadow-[0_4px_15px_rgba(198,207,0,0.3)] hover:-translate-y-1 transition-all active:translate-y-0">
+                        START A THREAD
+                    </button>
+</div>
+<div class="glass-card p-gutter">
+<h3 class="font-headline-md text-headline-md mb-6 flex items-center justify-between">
+                        Recent Topics
+                        <span class="material-symbols-outlined text-outline text-sm" data-icon="forum">forum</span>
+</h3>
+<div class="space-y-6">
+<a class="block group" href="#">
+<p class="font-headline-md text-sm group-hover:text-primary transition-colors">Server Maintenance Update: April 25</p>
+<div class="flex justify-between mt-1">
+<span class="font-label-sm text-[10px] text-outline">OFFICIAL</span>
+<span class="font-label-sm text-[10px] text-outline">120 Replies</span>
+</div>
+</a>
+<a class="block group" href="#">
+<p class="font-headline-md text-sm group-hover:text-primary transition-colors">Is Team of the Season (TOTS) coming early?</p>
+<div class="flex justify-between mt-1">
+<span class="font-label-sm text-[10px] text-on-secondary-fixed-variant uppercase">Speculation</span>
+<span class="font-label-sm text-[10px] text-outline">456 Replies</span>
+</div>
+</a>
+<a class="block group" href="#">
+<p class="font-headline-md text-sm group-hover:text-primary transition-colors">Looking for Club: Tier 1 Defenders Only</p>
+<div class="flex justify-between mt-1">
+<span class="font-label-sm text-[10px] text-tertiary uppercase">Recruitment</span>
+<span class="font-label-sm text-[10px] text-outline">12 Replies</span>
+</div>
+</a>
+</div>
+</div>
+<div class="glass-card p-gutter">
+<h3 class="font-headline-md text-headline-md mb-4 uppercase italic">Trending Tags</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container-highest rounded-full text-xs font-label-sm text-on-surface hover:bg-primary/20 hover:text-primary cursor-pointer transition-colors">#EAFC24</span>
+<span class="px-3 py-1 bg-surface-container-highest rounded-full text-xs font-label-sm text-on-surface hover:bg-primary/20 hover:text-primary cursor-pointer transition-colors">#PACKOPENING</span>
+<span class="px-3 py-1 bg-surface-container-highest rounded-full text-xs font-label-sm text-on-surface hover:bg-primary/20 hover:text-primary cursor-pointer transition-colors">#WEEKENDLEAGUE</span>
+<span class="px-3 py-1 bg-surface-container-highest rounded-full text-xs font-label-sm text-on-surface hover:bg-primary/20 hover:text-primary cursor-pointer transition-colors">#CHAMPS</span>
+<span class="px-3 py-1 bg-surface-container-highest rounded-full text-xs font-label-sm text-on-surface hover:bg-primary/20 hover:text-primary cursor-pointer transition-colors">#SQUADBUILDER</span>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full relative mt-section-gap bg-surface-container-lowest border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-container-margin py-section-gap max-w-screen-2xl mx-auto">
+<div class="md:col-span-1">
+<span class="font-headline-md text-headline-md text-on-surface block mb-4">FIFA GLOBAL</span>
+<p class="text-body-md text-sm text-on-surface-variant max-w-xs">The premier destination for the global football gaming community. Join the elite.</p>
+</div>
+<div>
+<h4 class="font-headline-md text-sm uppercase mb-4 text-on-surface">Community</h4>
+<ul class="space-y-2">
+<li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Forums</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Tournaments</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Events</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Partners</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline-md text-sm uppercase mb-4 text-on-surface">Resources</h4>
+<ul class="space-y-2">
+<li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Sitemap</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline-md text-sm uppercase mb-4 text-on-surface">Follow Us</h4>
+<div class="flex gap-4">
+<button class="w-10 h-10 rounded-lg glass-card flex items-center justify-center hover:text-primary"><span class="material-symbols-outlined" data-icon="share">share</span></button>
+<button class="w-10 h-10 rounded-lg glass-card flex items-center justify-center hover:text-primary"><span class="material-symbols-outlined" data-icon="videocam">videocam</span></button>
+<button class="w-10 h-10 rounded-lg glass-card flex items-center justify-center hover:text-primary"><span class="material-symbols-outlined" data-icon="public">public</span></button>
+</div>
+<div class="mt-8">
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 FIFA GLOBAL. ALL RIGHTS RESERVED.</p>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for glass cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Simple text area auto-resize
+        const tx = document.getElementsByTagName('textarea');
+        for (let i = 0; i < tx.length; i++) {
+            tx[i].setAttribute('style', 'height:' + (tx[i].scrollHeight) + 'px;overflow-y:hidden;');
+            tx[i].addEventListener("input", OnInput, false);
+        }
+
+        function OnInput() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        }
+    </script>
+</body></html>
